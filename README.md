@@ -2,25 +2,28 @@
 
 > High-velocity, cyberpunk multiplayer air hockey arena built for competitive esports play across separate devices and networks.
 
-![Neon Strike Banner](https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80)
+[🎮 Play NEON STRIKE](https://neon-strike-9o2f.onrender.com/) · [GitHub Repository](https://github.com/tapasilikithareddy/neon-strike)
+
+![Temporary Illustrative Banner](https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80)
+*Note: The image above is a temporary illustrative banner. Replacing it with an actual in-game screenshot of the NEON STRIKE arena would better represent the live project.*
 
 ---
 
 ## 🌟 Overview & Architecture
 
-**NEON STRIKE** delivers an authentic, 60 FPS arcade air hockey experience in modern web browsers. It is architected as a **unified Node.js service** that builds the Vite frontend and serves the production bundle (`dist/`) alongside an Express and Socket.IO real-time multiplayer backend on the **exact same public origin**.
+**NEON STRIKE** delivers an arcade air hockey experience targeting 60 FPS in modern web browsers. It is architected as a **unified Node.js service** that builds the Vite frontend and serves the production bundle (`dist/`) alongside an Express and Socket.IO real-time multiplayer backend on the **same public origin**.
 
 ### Key Capabilities
-- **Unified Single-Origin Deployment**: Serves the React/Vite single-page application and the Socket.IO WebSocket backend from a single host and port. Eliminates CORS issues, avoids third-party signaling rate limits, and bypasses restrictive symmetric NAT firewalls.
-- **True Cross-Network Multiplayer**: Two players can duel from different phones, tablets, or computers across cellular 5G and home Wi-Fi networks.
+- **Unified Single-Origin Deployment**: Serves the React/Vite single-page application and the Socket.IO backend from a single host and port. Serving both from the same origin simplifies connection configuration, reduces cross-origin complexities, and avoids relying on third-party signaling services. Connection reliability remains dependent on local network conditions and firewalls.
+- **Cross-Network Multiplayer**: Two players can duel from different phones, tablets, or computers across cellular and Wi-Fi networks.
 - **Multiplayer Transport Architecture**:
-  - **Production Default (Socket.IO)**: 100% guaranteed connectivity with native WebSocket upgrades and HTTP long-polling fallback on the same public origin.
-  - **Preserved WebRTC P2P (PeerJS + STUN)**: Can be activated with `VITE_MULTIPLAYER_TRANSPORT=webrtc` for direct peer-to-peer data channels.
-- **Instant Room Codes & Battle Links**: Unique 6-character room codes (e.g., `NS-9482`) with one-click URL invitations (`https://.../?room=NS-9482`). Features a high-contrast dark navy Copy Link button with clipboard fallback.
-- **Authoritative Physics & Anti-Cheat**: Clamped half-court boundary enforcement, continuous 2D circle-circle elastic collision resolution, speed caps to eliminate tunneling, and authoritative goal detection.
-- **First to 5 Scoring**: Real-time scoreboards, 2-second goal replay banners, goal particle explosions, and instant rematches.
+  - **Production Default (Socket.IO)**: Designed for reliable cross-network multiplayer using Socket.IO, WebSocket upgrades, and HTTP long-polling fallback.
+  - **Preserved WebRTC P2P (PeerJS + STUN)**: Can be activated with `VITE_MULTIPLAYER_TRANSPORT=webrtc` for direct peer-to-peer data channels when network environments support it.
+- **Instant Room Codes & Battle Links**: Unique 6-character room codes (e.g., `NS-9482`) with one-click URL invitations (`https://.../?room=NS-9482`). Features a high-contrast dark navy Copy Link button with clipboard fallback and error feedback.
+- **Host-Authoritative Simulation & Boundary Validation**: Clamped half-court boundary enforcement, 2D circle-circle elastic collision resolution with sub-stepped position integration to mitigate high-speed tunneling, server-side coordinate validation, and goal line detection.
+- **First to 5 Scoring**: Real-time scoreboards, 2-second goal replay banners, goal particle effects, and instant rematch triggers.
 - **Solo Drill AI Mode with 3 Difficulties**:
-  - **Easy (Casual Drill - Default)**: Relaxed 280 px/s speed cap, 320ms human reaction delay, 35px aim variance, 25% miss probability on fast bank shots.
+  - **Easy (Casual Drill - Default)**: Relaxed 280 px/s speed cap, 320ms reaction delay, 35px aim variance, 25% miss probability on fast bank shots.
   - **Medium (Pro Circuit)**: Balanced 480 px/s speed, 160ms reaction delay, active defensive shadowing.
   - **Cyber-Elite**: Challenging 680 px/s speed, 70ms reaction delay, agile bank shot counter-striking.
 - **Procedural Audio Synthesizer**: Zero-asset procedural Web Audio API synthesizer generating tactile mallet thumps, metallic wall chimes, goal horns, and victory fanfares.
@@ -34,7 +37,7 @@
 - **Rendering**: Canvas 2D with offscreen rink pre-rendering and additive particle shaders
 - **Styling**: Vanilla CSS Design System with dark cyberpunk glassmorphism, esports typography (`Orbitron`, `Rajdhani`, `Inter`)
 - **Icons**: Lucide React
-- **Testing**: Vitest with 23 unit tests and 2-client E2E multiplayer simulation
+- **Testing**: Vitest with 23 automated unit tests and an end-to-end two-client multiplayer simulation
 
 ---
 
@@ -103,12 +106,13 @@ Verifies mutual discovery, room creation, joining, ready toggles, paddle coordin
 
 ## 📦 Production Deployment to Render (Recommended)
 
-Render offers a generous **Free Tier Web Service** for Node.js applications that supports WebSockets natively.
+Render offers a Free Tier Web Service for Node.js applications that supports WebSockets natively.
 
 ### Step-by-Step Deployment Instructions:
 
 1. **Push your code to GitHub / GitLab**:
-   Ensure all changes are committed and pushed to your repository.
+   Ensure all changes are committed and pushed to your repository:
+   `https://github.com/tapasilikithareddy/neon-strike`
 
 2. **Log in to Render**:
    Go to [https://dashboard.render.com](https://dashboard.render.com) and sign in.
@@ -120,7 +124,7 @@ Render offers a generous **Free Tier Web Service** for Node.js applications that
 4. **Configure the Service**:
    - **Name**: `neon-strike` (or your preferred name)
    - **Environment**: `Node`
-   - **Region**: Choose the region closest to you (e.g., Oregon / Frankfurt / Singapore)
+   - **Region**: Choose the region closest to your players (e.g., Oregon / Frankfurt / Singapore)
    - **Branch**: `main` (or your default branch)
    - **Build Command**: `npm install && npm run build`
    - **Start Command**: `npm start`
@@ -131,16 +135,16 @@ Render offers a generous **Free Tier Web Service** for Node.js applications that
    - **Auto-Deploy**: `Yes` (deploys automatically on git push)
 
 6. **Environment Variables**:
-   No custom environment variables are required! The server automatically detects `process.env.PORT` assigned by Render and binds to `0.0.0.0`.
+   No custom environment variables are required. The server automatically detects `process.env.PORT` assigned by Render and binds to `0.0.0.0`.
    *(Optional)*: Set `NODE_ENV=production`.
 
 7. **Deploy**:
    - Click **Create Web Service**.
-   - Render will run `npm install && npm run build` and launch `npm start`.
-   - Your publicly accessible game URL will be: `https://<your-service-name>.onrender.com`.
+   - Render will execute `npm install && npm run build` and launch `npm start`.
+   - Your publicly accessible game URL will be: `https://neon-strike-9o2f.onrender.com` (or your configured custom name).
 
 ### Free Tier Limitations & Expectations:
-- **Spin-down on Inactivity**: Free instances on Render spin down after 15 minutes of inactivity. When a player accesses the URL after spin-down, the first HTTP request may take 30–50 seconds to cold-start. Once awake, the game runs at full speed with sub-20ms WebSocket response times.
+- **Spin-down on Inactivity**: Free instances on Render spin down after 15 minutes of inactivity. When a player visits the URL after spin-down, the first HTTP request may take 30–50 seconds while the container boots. Once awake, the service resumes handling game traffic. Actual latency depends on the hosting region, network conditions, and player locations.
 - **Bandwidth**: Includes 100 GB/month of free egress bandwidth.
 
 ---
