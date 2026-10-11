@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: neon-strike
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: VITE_MULTIPLAYER_TRANSPORT
+        value: socket
